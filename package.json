@@ -2,7 +2,7 @@
   "name": "@nftverse/web3-sdk",
   "version": "1.0.0",
   "description": "This package aims at making the calls to external APIs of NFTVerse easier through predefined functions",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "NODE_ENV=production rollup -c"
