@@ -1,9 +1,3 @@
-import NFTApis from './apis/NFTApis';
-import WalletApis from './apis/WalletApis';
-import FungibleTokenApis from './apis/FungibleTokenApis';
-
-export default {
-    NFTApis,
-    WalletApis,
-    FungibleTokenApis,
-};
+export { default as NFTApis } from './apis/NFTApis';
+export { default as WalletApis } from './apis/WalletApis';
+export { default as FungibleTokenApis } from './apis/FungibleTokenApis';
