@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BlockchainName, NFTBody, NFTFileType, NFTForSale, NFTMiningStatus, TESTNET_URL } from '../common';
+import { BlockchainName, NFTBody, NFTFileType, NFTForSale, NFTMiningStatus, NFTTransfer, TESTNET_URL } from '../common';
 
 const NFTApis = {
     /**
@@ -20,6 +20,7 @@ const NFTApis = {
     /**
      * Get all/listed/unlisted NFTs
      * @param {string} [type=all] - NFT type (listed/unlisted/all)
+     * @param {string} [isSold=null] - NFT isSold (true/false)
      * @param {string} xAppToken - App token
      */
     getAllNFTs(type: NFTMiningStatus = 'all', xAppToken: string): Promise<any> {
@@ -51,7 +52,7 @@ const NFTApis = {
      * Upload asset
      * @param {FormData} asset - Asset data
      * @param {string} fileType - File type
-     * @param {number} externalAssetId - Asset ID
+     * @param {string} externalAssetId - Asset ID
      * @param {string} xAppToken - App token
      */
     uploadAsset(asset: FormData, fileType: NFTFileType, externalAssetId: number, xAppToken: string): Promise<any> {
@@ -73,7 +74,7 @@ const NFTApis = {
      */
     mintAndTransferNFT(nft: NFTBody, xAppToken: string): Promise<any> {
         nft.description = nft.description || '';
-        nft.displayImageUrl = nft.displayImageUrl || '';
+        nft.image = nft.image || '';
         nft.properties = nft.properties || [];
 
         return axios({
@@ -87,38 +88,35 @@ const NFTApis = {
         });
     },
 
-    /**
-     * Mint NFT
-     * @param {NFTBody} nft - NFT data
-     * @param {number} userId - User ID
-     * @param {BlockchainName} blockchain - Blockchain name
-     * @param {string} xAppToken - App token
-     */
-    mintNFT(nft: NFTBody, userId: number, blockchain: BlockchainName, xAppToken: string): Promise<any> {
-        nft.description = nft.description || '';
-        nft.displayImageUrl = nft.displayImageUrl || '';
-        nft.properties = nft.properties || [];
+    // /**
+    //  * Mint NFT
+    //  * @param {NFTBody} nft - NFT data
+    //  * @param {number} userId - User ID
+    //  * @param {BlockchainName} blockchain - Blockchain name
+    //  * @param {string} xAppToken - App token
+    //  */
+    // mintNFT(nft: NFTBody, userId: number, blockchain: BlockchainName, xAppToken: string): Promise<any> {
+    //     nft.description = nft.description || '';
+    //     nft.mediaUrl = nft.mediaUrl || '';
+    //     nft.properties = nft.properties || [];
 
-        return axios({
-            url: `${TESTNET_URL}/external/marketplace/user/${userId}/blockchain/${blockchain}/nft/mint`,
-            headers: {
-                'X-App-Token': xAppToken,
-                'Content-Type': 'application/json',
-            },
-            method: 'post',
-            data: nft,
-        });
-    },
+    //     return axios({
+    //         url: `${TESTNET_URL}/external/marketplace/user/${userId}/blockchain/${blockchain}/nft/mint`,
+    //         headers: {
+    //             'X-App-Token': xAppToken,
+    //             'Content-Type': 'application/json',
+    //         },
+    //         method: 'post',
+    //         data: nft,
+    //     });
+    // },
 
     /**
      * Transfer NFT
-     * @param {NFTBody} nft - NFT data
+     * @param {NFTTransfer} nftTransfer - NFT data
      * @param {string} xAppToken - App token
      */
-    transferNFT(nft: NFTBody, xAppToken: string): Promise<any> {
-        nft.description = nft.description || '';
-        nft.displayImageUrl = nft.displayImageUrl || '';
-        nft.properties = nft.properties || [];
+    transferNFT(nftTransfer: NFTTransfer, xAppToken: string): Promise<any> {
 
         return axios({
             url: `${TESTNET_URL}/external/nft/transfer`,
@@ -127,7 +125,7 @@ const NFTApis = {
                 'Content-Type': 'application/json',
             },
             method: 'post',
-            data: nft,
+            data: nftTransfer,
         });
     },
 
